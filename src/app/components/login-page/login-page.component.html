@@ -1,0 +1,72 @@
+<div *ngIf="!currentUser">
+  <section class="container">
+    <div class="row m-4">
+      <div class="col" style="height: 70vh;">
+        <form class="pt-4">
+          <div class="card shadow">
+            <p class="h4 card-header">LogIn</p>
+            <div class="card-body bg-light">
+              <form
+                [formGroup]="loginForm"
+                autocomplete="off"
+                novalidate
+                (ngSubmit)="login(loginForm.value)"
+                fxLayout="column wrap"
+                fxLayoutAlign="center center"
+                fxLayoutGap="10px"
+              >
+                <mat-card>
+                  <mat-card-content>
+                    <div class="login-main-container">
+                      <mat-form-field>
+                        <input
+                          matInput
+                          placeholder="Enter username"
+                          formControlName="username"
+                          id="username"
+                          required
+                        />
+                        <mat-error *ngIf="hasError('username', 'required')"
+                          >You must enter a email</mat-error
+                        >
+                      </mat-form-field>
+                      <mat-form-field>
+                        <input
+                          type="password"
+                          matInput
+                          placeholder="Enter your password"
+                          formControlName="password"
+                          id="password"
+                          required
+                        />
+                        <mat-error *ngIf="hasError('password', 'required')"
+                          >You must enter a password</mat-error
+                        >
+                        <mat-error *ngIf="hasError('password', 'minlength')"
+                          >You must enter more than 6 length password</mat-error
+                        >
+                      </mat-form-field>
+                      <mat-error *ngIf="loginError">{{
+                        this.errorMessage
+                      }}</mat-error>
+                    </div>
+                  </mat-card-content>
+                  <mat-card-actions class="actions">
+                    <button
+                      type="submit"
+                      [disabled]="!loginForm.valid || loading"
+                      mat-stroked-button
+                      color="primary"
+                    >
+                      LOG IN
+                    </button>
+                  </mat-card-actions>
+                </mat-card>
+              </form>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </section>
+</div>

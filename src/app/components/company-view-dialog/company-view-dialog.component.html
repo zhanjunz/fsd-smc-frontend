@@ -1,0 +1,6 @@
+<h3>{{data.companyName}}</h3>
+<span *ngFor="let e2c of data.exchange">{{e2c.exchange.code}}({{e2c.stockCode}}) </span><br/>
+Sector: {{data.sector.name}} &nbsp; Turnover: {{data.turnover}}<br/>
+CEO: {{data.ceo}} <br/>
+Board of Directors: {{data.boardOfDirectors}}<br/><br/>
+{{data.briefWriteup}}

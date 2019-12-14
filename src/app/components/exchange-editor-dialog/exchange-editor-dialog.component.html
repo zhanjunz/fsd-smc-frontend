@@ -1,0 +1,33 @@
+<form [formGroup]="editorForm" autocomplete="off">
+    <mat-card>
+        <mat-card-content>
+            <input type="hidden" id="id" formControlName="id">
+            <mat-form-field>
+                <input *ngIf="!editMode" readonly matInput placeholder="Exchange Code" formControlName="code" id="code" required>
+                <input *ngIf="editMode" matInput placeholder="Exchange Code" formControlName="code" id="code" required>
+                <mat-error *ngIf="editMode && hasError('code', 'required')">You must enter exchange code</mat-error>            
+            </mat-form-field>
+            <mat-form-field>
+                <input *ngIf="!editMode" readonly matInput placeholder="Description" formControlName="brief" id="brief" required>
+                <input *ngIf="editMode" matInput placeholder="Description" formControlName="brief" id="brief" required>
+                <mat-error *ngIf="editMode && hasError('brief', 'required')">You must enter exchange description</mat-error>            
+            </mat-form-field>
+            <mat-form-field>
+                <textarea *ngIf="!editMode" readonly rows="5" type="text" matInput placeholder="Address" formControlName="address" id="address" required></textarea>
+                <textarea *ngIf="editMode" rows="5" type="text" matInput placeholder="Address" formControlName="address" id="address" required></textarea>
+                <mat-error *ngIf="editMode && hasError('address', 'required')">You must enter exchange address</mat-error>            
+            </mat-form-field>
+            <br/>
+            <mat-form-field>
+                <input *ngIf="!editMode" readonly matInput placeholder="Remarks" formControlName="remarks" id="remarks">
+                <input *ngIf="editMode" matInput placeholder="Remarks" formControlName="remarks" id="remarks">
+            </mat-form-field>
+        </mat-card-content>
+        <mat-card-actions>
+                <button type="button" (click)="performAction()" [disabled]="(editMode && !editorForm.valid) || loading" mat-stroked-button>
+                    {{newExchange?'Create':(editMode?'Update':'Edit')}}
+                </button>            
+                <button type="button" (click)="cancel()" [disabled]="loading" mat-stroked-button>{{newExchange||editMode?'Cancel':'Close'}}</button>
+        </mat-card-actions>
+    </mat-card>
+</form>

@@ -1,0 +1,47 @@
+<form [formGroup]="editorForm" autocomplete="off">
+    <mat-form-field>
+        <input matInput [matDatepicker]="startDate" formControlName="startDate" placeholder="Start date">
+        <mat-datepicker-toggle matSuffix [for]="startDate"></mat-datepicker-toggle>
+        <mat-datepicker #startDate></mat-datepicker>
+    </mat-form-field>
+    <mat-form-field>
+        <input matInput [matDatepicker]="endDate" formControlName="endDate" placeholder="End date">
+        <mat-datepicker-toggle matSuffix [for]="endDate"></mat-datepicker-toggle>
+        <mat-datepicker #endDate></mat-datepicker>
+    </mat-form-field>
+    <mat-form-field>
+        <input matInput placeholder="Compare company" formControlName="compareCompany" [matAutocomplete]="auto">
+        <mat-autocomplete #auto="matAutocomplete" [displayWith]="updateTextField" (optionSelected)="updateCompanyId($event.option.value)">
+            <mat-option *ngFor="let company of searchedCompanies" [value]="company">{{company.companyName}}</mat-option>
+        </mat-autocomplete> 
+    </mat-form-field>
+    <mat-form-field>
+        <mat-select  formControlName="chartType" placeholder="Chart Type">
+            <mat-option value=1>Line Chart</mat-option>
+            <mat-option value=2>Bar Chart</mat-option>
+        </mat-select>
+    </mat-form-field>
+    <mat-slide-toggle formControlName="merge">Merge Charts</mat-slide-toggle>
+    &nbsp;
+    <button mat-stroked-button (click)="refresh()" [disabled]="!editorForm.valid || loading">Refresh</button>
+</form>
+<mat-tab-group>
+    <mat-tab *ngFor="let exchange of exchanges; let i = index" label="{{exchange.code}}">
+        <div class="container" *ngIf="!dataAvailable[i] || !companyAvailable[i]">
+            <br/>
+            <h3>No Data Available for Selected Date</h3>
+        </div>
+        <div #one>
+            <app-line-chart [companyName]="companyNames[i]"></app-line-chart>
+        </div>
+        <br/>
+        <div #two>
+            <app-line-chart [companyName]="compareCompanyName[i]" [compareCompany]="true" [exchangeIndex]="i"></app-line-chart>
+        </div>
+    </mat-tab>
+</mat-tab-group>
+
+
+<!--
+    <app-line-chart  [chartId]="getChartId('linel',i)" [companyName]="companyNames[i]" [prices]="values[i]" [dates]="labels[i]"></app-line-chart>
+-->

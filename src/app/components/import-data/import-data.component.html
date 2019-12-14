@@ -1,0 +1,19 @@
+<mat-card>
+    <mat-card-title>
+        Import Excel
+    </mat-card-title>
+    <mat-card-content>
+        <form #fileUpload="ngForm" (ngSubmit)="onSubmit()">
+            <div class="form-group">
+                <mat-card><mat-card-content>
+                    <input type="file" accept=".xlsx" id="fileField" (change)="fileSelected($event.target.files)" #fileInput>
+                </mat-card-content></mat-card>
+                <br/>
+                <button type="submit" [disabled]="fileUpload.invalid || loading" mat-stroked-button>Submit</button>
+            </div>
+        </form>
+    </mat-card-content>
+    <mat-card-footer>
+        <a href="/assets/sample_stock_data.xlsx" filename="smple.xlsx" target="_blank">Click here to download sample excel file</a>
+    </mat-card-footer>
+</mat-card>

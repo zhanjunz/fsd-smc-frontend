@@ -1,0 +1,63 @@
+<form [formGroup]="editorForm" autocomplete="off">
+    <mat-card>
+        <mat-card-content>
+            <input type="hidden" formControlName="id">
+            <input type="hidden" formControlName="id">
+            <mat-form-field>
+                <input *ngIf="!editMode" readonly matInput placeholder="Company Name" formControlName="companyName">
+                <input matInput *ngIf="editMode" placeholder="Company Name" formControlName="companyName" required>
+                <mat-error *ngIf="editMode && hasError('companyName', 'required')">You must enter Company name</mat-error>            
+            </mat-form-field>
+            <div formGroupName="sector">
+                <mat-form-field>
+                    <input *ngIf="!editMode" readonly matInput placeholder="Sector" formControlName="name">
+                    <mat-select  *ngIf="editMode" formControlName="id" placeholder="Sector"  required>
+                            <mat-option>-- Select Sector --</mat-option>
+                            <mat-option *ngFor="let obj of sectors" [value]="obj.id">{{obj.name}}</mat-option>
+                    </mat-select>
+                    <mat-error *ngIf="editMode && hasError('sector.id', 'required')">You must select and exchange</mat-error>            
+                </mat-form-field>
+            </div>
+            <ng-container formArrayName="exchange">
+                <div *ngFor="let group of this.editorForm['controls'].exchange['controls']; let i = index">
+                    <div [formGroupName]="i">
+                        <mat-checkbox  [value]="exchanges[i].id" formControlName="exchangeId">
+                            {{exchanges[i].code}}
+                        </mat-checkbox>
+                        <input *ngIf="!editMode" readonly matInput formControlName="stockCode">
+                        <input *ngIf="editMode" matInput formControlName="stockCode">
+                    </div>
+                </div>
+            </ng-container>
+            <mat-form-field>
+                <input *ngIf="!editMode" readonly matInput placeholder="CEO" formControlName="ceo">
+                <input matInput *ngIf="editMode" placeholder="CEO" formControlName="ceo" required>
+                <mat-error *ngIf="editMode && hasError('ceo', 'required')">You must enter CEO name</mat-error>            
+            </mat-form-field>
+            <mat-form-field>
+                <input *ngIf="!editMode" readonly matInput placeholder="Board of Directors" formControlName="boardOfDirectors">
+                <input matInput *ngIf="editMode" placeholder="Board of Directors" formControlName="boardOfDirectors" required>
+                <mat-error *ngIf="editMode && hasError('boardOfDirectors', 'required')">You must enter Board of Director names</mat-error>            
+            </mat-form-field>
+            <mat-form-field>
+                <input *ngIf="!editMode" readonly matInput placeholder="Turnover" formControlName="turnover">
+                <input matInput *ngIf="editMode" placeholder="Turnover" formControlName="turnover" required>
+                <mat-error *ngIf="editMode && hasError('turnover', 'required')">You must enter turnover amount</mat-error>
+                <mat-error *ngIf="editMode && hasError('turnover', 'pattern')">Please enter a valid number without any decimals</mat-error>
+            </mat-form-field>
+            <div>
+                <mat-form-field>
+                    <textarea *ngIf="!editMode" readonly rows="5" type="text" matInput placeholder="Description" formControlName="briefWriteup"required></textarea>
+                    <textarea *ngIf="editMode" rows="5" type="text" matInput placeholder="Description" formControlName="briefWriteup" required></textarea>
+                    <mat-error *ngIf="editMode && hasError('briefWriteup', 'required')">You must enter details about company</mat-error>            
+                </mat-form-field>
+            </div>
+        </mat-card-content>
+        <mat-card-actions>
+                <button type="button" (click)="performAction()" [disabled]="(editMode && !editorForm.valid) || loading" mat-stroked-button>
+                    {{newObject?'Create':(editMode?'Update':'Edit')}}
+                </button>            
+                <button type="button" (click)="cancel()" [disabled]="loading" mat-stroked-button>{{newObject||editMode?'Cancel':'Close'}}</button>
+        </mat-card-actions>
+    </mat-card>
+</form>
